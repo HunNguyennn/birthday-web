@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { playSound } from '../utils/sounds';
+import { getGoogleDriveImageLink } from '../utils/googleDrive';
 
 import { FloatingHearts } from './BackgroundEffects';
 
@@ -101,29 +102,67 @@ const Surprise = ({ initialExploded = false }) => {
                         Mối tình của em ❤️
                     </motion.div>
 
-                    {/* Video Placeholders Section */}
+                    {/* Beautiful Image Gallery Section */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: letterText.length * 0.03 + 1, duration: 0.8 }}
                         className="mt-16 pt-8 border-t border-white/20"
                     >
-                        <h4 className="text-xl font-bold text-gray-700 mb-6 flex items-center gap-2">
-                            <span className="text-2xl">📽️</span> Những thước phim kỷ niệm
+                        <h4 className="text-2xl font-dreamy text-gray-800 mb-8 flex items-center justify-center gap-3">
+                            <span className="text-3xl animate-pulse">✨</span>
+                            Kho báu kỷ niệm
+                            <span className="text-3xl animate-pulse">✨</span>
                         </h4>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {[1, 2, 3, 4].map((i) => (
-                                <div key={i} className="aspect-video bg-gray-200/50 rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-gray-300 group hover:border-pink-300 transition-colors cursor-pointer overflow-hidden relative">
-                                    <div className="text-gray-400 group-hover:text-pink-400 transition-colors flex flex-col items-center">
-                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                                        <span className="text-xs mt-2 font-bold uppercase tracking-widest">Video Kỷ Niệm {i}</span>
+
+                        <div className="columns-1 sm:columns-2 gap-4 space-y-4">
+                            {[
+                                { url: "https://drive.google.com/file/d/1ZbZrblt6KDmcbracdkXFqMNXiOwo31C_/view?usp=drive_link", type: "image", caption: "Kỷ niệm 1" },
+                                { url: "https://drive.google.com/file/d/1Ka5n6CfRQWoRE4Ru2gxmUbyaQ2RXhRzh/view?usp=drive_link", type: "video", caption: "Kỷ niệm 2" },
+                                { url: "https://drive.google.com/file/d/1sYVbdRkNCfZvfBgQpC7gAyrsM89rB5x4/view?usp=drive_link", type: "image", caption: "Kho báu" },
+                                { url: "https://drive.google.com/file/d/1tOCIojZKJmB1srhPWhFC-9qxR_AvWIfs/view?usp=drive_link", type: "video", caption: "Kho báu" },
+                                { url: "https://drive.google.com/file/d/1wETx5Gqx__TeGfHZMdPp7CzuXnNwzTvw/view?usp=drive_link", type: "video", caption: "Demo" },
+                                { url: "https://drive.google.com/file/d/1Mt1v2w9mV6fIe21AfhrmSCYuYE7STxd1/view?usp=drive_link", type: "image", caption: "Demo" },
+                                { url: "https://drive.google.com/file/d/1nyzeX6NneGtDsK67iYML3bjn9kodoFLM/view?usp=drive_link", type: "image", caption: "Demo" },
+                                { url: "https://drive.google.com/file/d/1UMo-7K6IlFsx8AirIpiWv5WDXGlKdVLL/view?usp=drive_link", type: "image", caption: "Demo" },
+                                { url: "https://drive.google.com/file/d/16Biiye7b7qLt6T4D3vPQADV9HRbguiW-/view?usp=drive_link", type: "image", caption: "Demo" },
+                                { url: "https://drive.google.com/file/d/1j9anfoYzRkhfpDkCD9QwMTcX-508YzD5/view?usp=drive_link", type: "image", caption: "Demo" },
+                                { url: "https://drive.google.com/file/d/1zy3nx5psCkxSxwF-vXFHVBh1fOKQgVZg/view?usp=drive_link", type: "image", caption: "Demo" },
+                                // Add more items with type: "video" if needed, using direct link logic or iframe
+                            ].map((item, i) => (
+                                <motion.div
+                                    key={i}
+                                    whileHover={{ scale: 1.02 }}
+                                    className="relative break-inside-avoid rounded-2xl overflow-hidden border-4 border-white shadow-lg group bg-gray-100/50 mb-4"
+                                >
+                                    {item.type === 'video' ? (
+                                        <div className="relative w-full aspect-video bg-black">
+                                            <iframe
+                                                src={item.url.replace('/view', '/preview')}
+                                                className="absolute inset-0 w-full h-full border-0 block"
+                                                allow="autoplay; encrypted-media; fullscreen"
+                                                allowFullScreen
+                                                title={`Video ${i}`}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <img
+                                            src={getGoogleDriveImageLink(item.url)}
+                                            alt={item.caption || `Kỷ niệm ${i + 1}`}
+                                            className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110 block"
+                                            loading="lazy"
+                                        />
+                                    )}
+
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none flex items-end p-4">
+                                        <span className="text-white text-sm font-medium">{item.caption}</span>
                                     </div>
-                                    <div className="absolute inset-0 bg-pink-100 opacity-0 group-hover:opacity-20 transition-opacity" />
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
-                        <p className="text-center text-xs text-gray-500 mt-4 italic">
-                            (Bỏ video của em vào folder public/videos/ để thay thế nhé!)
+
+                        <p className="text-center text-xs text-gray-500 mt-8 italic">
+                            (Dán link ảnh Google Drive của bạn vào để tạo kho báu riêng nhé! 💝)
                         </p>
                     </motion.div>
                 </motion.div>

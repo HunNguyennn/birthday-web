@@ -100,3 +100,32 @@ body {
   animation: gradient-x 3s ease infinite;
   background-size: 200% auto;
 }
+
+/* --- Premium Scrollbar --- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff0f5; /* Lavender Blush */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffb6c1; /* Light Pink */
+  border-radius: 10px;
+  border: 2px solid #fff0f5;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff69b4; /* Hot Pink */
+}
+
+/* --- Text Selection --- */
+::selection {
+  background-color: #fce4ec; /* Pink 50 */
+  color: #d81b60; /* Pink 600 */
+}
+
+/* --- Custom Cursor (Optional) --- */
+/* Uncomment if you want a custom cursor globally */
+/* body { cursor: url('path-to-cursor.png'), auto; } */

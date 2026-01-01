@@ -57,10 +57,10 @@ const Hero = () => {
             >
                 <h1 className="font-dreamy mb-8 leading-none drop-shadow-[0_5px_15px_rgba(255,105,180,0.3)]">
                     <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 animate-gradient-x pb-4 whitespace-nowrap text-4xl md:text-6xl lg:text-7xl xl:text-8xl">
-                        Chúc mừng sinh nhật
+                        Chào cục cưng xinh iuu
                     </span>
                     <span className="block text-gray-800 text-xl md:text-3xl lg:text-4xl mt-4 font-bold tracking-tight">
-                        Công chúa (nhưng hay dỗi) của anh! ❤️
+                        Chúc mừng sinh nhật nhóoo ❤️🎂✨
                     </span>
                 </h1>
 
@@ -77,7 +77,7 @@ const Hero = () => {
                     transition={{ delay: 0.8, duration: 0.8 }}
                     className="text-lg md:text-xl text-gray-600 font-medium italic"
                 >
-                    Chúc em tuổi mới bớt dỗi, thêm xinh, và yêu anh nhiều hơn nữa nhé! 🎂✨
+                    Chúc em tuổi mới thêm xinh, thêm giỏi, và yêu anh nhiều hơn nữa nhé! 🎂✨
                 </motion.p>
             </motion.div>
         </div>

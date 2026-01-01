@@ -3,12 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, Music, Heart, Shuffle, ChevronDown, SkipBack, SkipForward, Repeat } from 'lucide-react';
 import { playSound } from '../utils/sounds';
 import { useMusic } from '../context/MusicContext';
-import albumCover from '../context/Cover of SINH NHAT by HIEUTHUHAI.jpg';
+import defaultAlbumCover from '../context/Cover of SINH NHAT by HIEUTHUHAI.jpg';
 
 const MusicPlayer = () => {
-    const { isPlaying, togglePlay, frequencyData } = useMusic();
+    const { isPlaying, togglePlay, frequencyData, currentTrack, nextTrack, prevTrack } = useMusic();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
+
+    // Determines cover art
+    const coverArt = currentTrack.image || defaultAlbumCover;
+    // Or if title contains "Unknown" maybe use a placeholder? use default for now.
 
     const handleTogglePlay = (e) => {
         e.stopPropagation();
@@ -18,6 +22,16 @@ const MusicPlayer = () => {
     const toggleExpand = () => {
         playSound('click');
         setIsExpanded(!isExpanded);
+    };
+
+    const handleNext = (e) => {
+        e.stopPropagation();
+        nextTrack();
+    };
+
+    const handlePrev = (e) => {
+        e.stopPropagation();
+        prevTrack();
     };
 
     // Use slice of frequency data for the bar visualizers
@@ -54,15 +68,15 @@ const MusicPlayer = () => {
                                 className="w-48 h-48 rounded-full border-[8px] border-white/10 shadow-2xl overflow-hidden mb-6 relative"
                             >
                                 <img
-                                    src={albumCover}
+                                    src={coverArt}
                                     alt="Album Art"
                                     className="w-full h-full object-cover"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent" />
                             </motion.div>
 
-                            <h3 className="text-2xl font-bold mb-1">SINH NHẬT</h3>
-                            <p className="text-white/60 text-sm">HIEUTHUHAI</p>
+                            <h3 className="text-2xl font-bold mb-1 text-center truncate w-full px-4">{currentTrack.title}</h3>
+                            <p className="text-white/60 text-sm">{currentTrack.artist}</p>
                         </div>
 
                         {/* REAL Waveform */}
@@ -80,7 +94,10 @@ const MusicPlayer = () => {
                         <div className="flex items-center justify-between px-4 mb-4">
                             <Shuffle size={18} className="text-white/30" />
                             <div className="flex items-center gap-8">
-                                <SkipBack size={28} />
+                                <motion.button whileTap={{ scale: 0.9 }} onClick={handlePrev}>
+                                    <SkipBack size={28} />
+                                </motion.button>
+
                                 <motion.button
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.9 }}
@@ -89,7 +106,10 @@ const MusicPlayer = () => {
                                 >
                                     {isPlaying ? <Pause size={30} fill="white" /> : <Play size={30} fill="white" className="ml-1" />}
                                 </motion.button>
-                                <SkipForward size={28} />
+
+                                <motion.button whileTap={{ scale: 0.9 }} onClick={handleNext}>
+                                    <SkipForward size={28} />
+                                </motion.button>
                             </div>
                             <Repeat size={18} className="text-white/30" />
                         </div>
@@ -107,11 +127,11 @@ const MusicPlayer = () => {
                         transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                         className="w-12 h-12 rounded-full overflow-hidden shadow-lg border-2 border-white/50"
                     >
-                        <img src={albumCover} className="w-full h-full object-cover" />
+                        <img src={coverArt} className="w-full h-full object-cover" />
                     </motion.div>
 
                     <div className="flex flex-col overflow-hidden max-w-[120px]">
-                        <h4 className="text-xs font-bold text-gray-800 truncate">SINH NHẬT</h4>
+                        <h4 className="text-xs font-bold text-gray-800 truncate">{currentTrack.title}</h4>
                         <div className="flex items-center gap-1.5 overflow-hidden">
                             {isPlaying && (
                                 <div className="flex gap-[1px] items-end h-3">

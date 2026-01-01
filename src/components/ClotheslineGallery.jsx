@@ -2,27 +2,58 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Camera, Trash2, Pencil, Download, X } from 'lucide-react';
 import { playSound } from '../utils/sounds';
+import { getGoogleDriveImageLink } from '../utils/googleDrive';
 import PhotoBooth from './PhotoBooth';
 
 const DEFAULT_IMAGES = [
     {
+        id: "default-1",
+        url: "https://drive.google.com/file/d/1DALw42Bgx2pDVF5dPvCfhWNPoaJtMG1r/view?usp=drive_link",
+        caption: "Dễ thương zậy béee 😄",
+        rotation: -4
+    },
+    {
         id: "default-2",
-        url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800",
-        caption: "Cười híp cả mắt luôn 😄",
+        url: "https://drive.google.com/file/d/1LFUQaugHbRFgcgAmfmcd56dQuDX047wj/view?usp=drive_link",
+        caption: "Có thể là dựng được luôn 😄",
         rotation: 5
     },
     {
         id: "default-3",
-        url: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800",
+        url: "https://drive.google.com/file/d/14GpP1VkMb9ZLDdp_hAaMrjLbz-AfviIK/view?usp=drive_link",
         caption: "Thần thái không đùa được đâu ✨",
         rotation: -3
     },
     {
         id: "default-4",
-        url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800",
-        caption: "Lúc dỗi trông như này nè 😤",
+        url: "https://drive.google.com/file/d/1HSJKVpRXfCSJD3VEY1fiQ7nqrRklWiYc/view?usp=drive_link",
+        caption: "Nhìn không ra người yêu mình lun 😤",
         rotation: 4
-    }
+    },
+    {
+        id: "default-5",
+        url: "https://drive.google.com/file/d/1ocACwG0aZV-ENBFpGoz1YDb3H8Aoj7jA/view?usp=drive_link",
+        caption: "Cổ cũng yêu nước dữ dằn 🇻🇳 😤",
+        rotation: -2
+    },
+    {
+        id: "default-6",
+        url: "https://drive.google.com/file/d/1BmlDhM6e2AZ69cNE9dSABvOI0xeFCea4/view?usp=drive_link",
+        caption: "Xinh quá gái iu ơi 😤",
+        rotation: 3
+    },
+    {
+        id: "default-7",
+        url: "https://drive.google.com/file/d/1-7m86dYbmcic8kzbwMRpcQjl8LRGXeHv/view?usp=drive_link",
+        caption: "Đẹp quá gái iu ơi 😤",
+        rotation: -3
+    },
+    {
+        id: "default-8",
+        url: "https://drive.google.com/file/d/1R7bBQEH9IGBSwa39KZHzBQWlhPRVimUR/view?usp=drive_link",
+        caption: "Củ nghệ của anh",
+        rotation: 5
+    },
 ];
 
 const ClotheslineGallery = () => {
@@ -44,6 +75,7 @@ const ClotheslineGallery = () => {
                     ...img,
                     id: img.id || `saved-${Date.now()}-${idx}`
                 }));
+                // Append saved to defaults
                 setGalleryImages([...DEFAULT_IMAGES, ...sanitized]);
             } catch (e) {
                 console.error("Failed to load photos", e);
@@ -259,7 +291,7 @@ const ClotheslineGallery = () => {
 
                             <div className="aspect-[4/5] overflow-hidden bg-gray-50 mb-4 shadow-inner">
                                 <img
-                                    src={img.url}
+                                    src={getGoogleDriveImageLink(img.url)}
                                     alt={img.caption}
                                     loading="lazy"
                                     className="w-full h-full object-cover pointer-events-none"

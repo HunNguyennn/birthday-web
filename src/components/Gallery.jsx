@@ -1,14 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { getGoogleDriveImageLink } from '../utils/googleDrive';
 
 const images = [
     {
-        url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800",
+        url: "https://drive.google.com/file/d/1vA_Y79wY7_EXAMPLE1/view?usp=sharing",
         caption: "ẢNH LÚC ĐANG CƯỜI (Cười híp cả mắt luôn 😄)",
         rotation: "2deg"
     },
     {
-        url: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800",
+        url: "https://drive.google.com/file/d/1vA_Y79wY7_EXAMPLE2/view?usp=sharing",
         caption: "ẢNH XINH ĐẸP NHẤT (Thần thái không đùa được đâu ✨)",
         rotation: "-1deg"
     }
@@ -36,7 +37,7 @@ const Gallery = () => {
                         {/* Scrapbook/Polaroid look */}
                         <div className="aspect-[4/5] overflow-hidden bg-gray-100 mb-4">
                             <img
-                                src={img.url}
+                                src={getGoogleDriveImageLink(img.url)}
                                 alt={img.caption}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />

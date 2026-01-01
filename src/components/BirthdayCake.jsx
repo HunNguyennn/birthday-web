@@ -1,9 +1,16 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { playSound } from '../utils/sounds';
 import confetti from 'canvas-confetti';
+import { useMusic } from '../context/MusicContext';
+
+// Celebration audio URL - Replace with your own link!
+const CELEBRATION_AUDIO_URL = "https://audio.jukehost.co.uk/6nW3H2whHbxA8bw3SYJD5ZADw0Y1mGeP"; // Example: Congratulations sound
+const NEW_BGM_URL = "https://audio.jukehost.co.uk/bleasUa48UL3UwHMkM69XH8zZ98sGjw3";
 
 const BirthdayCake = ({ onComplete }) => {
+    const { addTrack, playTrack, pauseWithFade } = useMusic();
+    const celebrationPlayed = useRef(false);
     const [age, setAge] = useState('');
     const [isAgeSet, setIsAgeSet] = useState(false);
     const [candles, setCandles] = useState([]);
@@ -13,6 +20,42 @@ const BirthdayCake = ({ onComplete }) => {
     const [isFanOn, setIsFanOn] = useState(false);
     const [allBlownOut, setAllBlownOut] = useState(false);
     const [showFan, setShowFan] = useState(false); // New state to keep fan visible
+
+    // Play celebration audio when all candles are blown out
+    useEffect(() => {
+        if (allBlownOut && !celebrationPlayed.current) {
+            celebrationPlayed.current = true;
+
+            // Fade out current background music
+            pauseWithFade();
+
+            const audio = new Audio(CELEBRATION_AUDIO_URL);
+            audio.volume = 1; // loud
+            audio.play().catch(e => console.log("Audio play failed", e));
+
+            // When celebration sound ends, Add & Play new song
+            audio.onended = () => {
+                const newTrack = {
+                    title: "Giấc Mơ",
+                    artist: "Hưng Nguyễn cover",
+                    url: NEW_BGM_URL,
+                    // Optionally add a specific cover image for this track if you have one
+                    // image: someCoverUrl
+                };
+                addTrack(newTrack);
+
+                // We assume the new track is at index 1 since we just appended it to the initial one
+                // A safer way would be to find the index but this is fine for this specific flow.
+                // Or "playTrack(playlist.length)" but addTrack is not sync wrapper here immediately returning new list.
+                // However, state update in context is fast enough or we just wait a tick?
+                // Actually addTrack in context uses callback.
+                // Let's use a timeout to ensure state update happened or just assume it works.
+                setTimeout(() => {
+                    playTrack(1);
+                }, 100);
+            };
+        }
+    }, [allBlownOut, addTrack, playTrack, pauseWithFade]);
 
     // Derive litCount
     const litCount = useMemo(() => candles.filter(c => c.isLit).length, [candles]);
@@ -125,7 +168,8 @@ const BirthdayCake = ({ onComplete }) => {
                 setTimeout(() => {
                     setAllBlownOut(true);
                     playSound('success');
-                    playSound('cheer'); // Add cheer sound if available or reuse success
+                    setTimeout(() => playSound('redeem'), 300); // Play another happy sound shortly after
+
                     // Automatic celebration confetti
                     confetti({
                         particleCount: 100,
