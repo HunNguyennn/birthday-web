@@ -47,7 +47,7 @@ const Surprise = ({ initialExploded = false }) => {
         }, 250);
     };
 
-    const letterText = "Gửi Công chúa của anh,\n\nChúc mừng sinh nhật em! Cảm ơn em đã xuất hiện và làm cho cuộc sống của anh thêm nhiều sắc màu (mặc dù đôi khi cũng hơi đau đầu vì em dỗi 😅). Chúc em sang tuổi mới luôn rạng rỡ, hạnh phúc, và lúc nào cũng là cô gái tuyệt vời nhất trong mắt anh. Anh hứa sẽ luôn ở bên cạnh, chiều chuộng và mua thật nhiều trà sữa cho em!\n\nYêu em nhiều ❤️";
+    const letterText = "Gửi Tuyết Trinh của anh,\n\nChúc mừng sinh nhật em! Cảm ơn em đã xuất hiện và làm cho cuộc sống của anh thêm nhiều sắc màu và có ý nghĩa nữa (mặc dù đôi khi cũng hơi đau đầu vì em dỗi 😅). Chúc em sang tuổi mới luôn rạng rỡ, hạnh phúc, và lúc nào cũng là cô gái tuyệt vời nhất với chính mình, là một phiên bản tốt nhất nhé. Anh sẽ cố gắng thay đổi tính của anh, tập cách quan tâm và yêu thương em nhiều hơn! Mong hai ta có thể đi với nhau lâu lâu nữa nhó!\n\nYêu em nhiều ❤️";
 
     return (
         <div className="py-32 flex flex-col items-center justify-center min-h-[60vh]">
